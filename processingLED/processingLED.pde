@@ -41,7 +41,7 @@ void setup()
   LineY = ColorPickerY + int(hue(activeColor)); //set initial Line position
   CrossX = ColorPickerX + int(saturation(activeColor)); //set initial Line position
   CrossY = ColorPickerY + int(brightness(activeColor)); //set initial Line position
-  
+
   String COMx, COMlist = "";
   /*
   Other setup code goes here - I put this at
@@ -124,6 +124,20 @@ String message;
 
 void drawOK() 
 {
+  if ( mouseX > ColorPickerX + 285 && mouseX < ColorPickerX + 305 && mouseY > ColorPickerY + 240 - 20 && mouseY < ColorPickerY + 260 -20) { //check if the cross is on the darker color
+    fill(0); //optimize visibility on ligher colors
+    if (mousePressed == true) {
+      println("OFF");
+      message = ("0,0,0"); //compose message to set coor
+      myPort.write(message);
+      delay(100); //Debounce
+    }
+  } else {
+    fill(100); //optimize visibility on darker colors
+  }
+  
+  text( "OFF", ColorPickerX + 285, ColorPickerY + 250 - 20);
+  
   if ( mouseX > ColorPickerX + 285 && mouseX < ColorPickerX + 305 && mouseY > ColorPickerY + 240 && mouseY < ColorPickerY + 260 ) { //check if the cross is on the darker color
     fill(0); //optimize visibility on ligher colors
     if (mousePressed == true) {
@@ -137,6 +151,7 @@ void drawOK()
   }
 
   text( "OK", ColorPickerX + 285, ColorPickerY + 250 );
+  
 }
 
 
