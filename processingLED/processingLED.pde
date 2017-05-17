@@ -162,7 +162,7 @@ void drawOK()
   if ( mouseX > ColorPickerX + 285 && mouseX < ColorPickerX + 305 && mouseY > ColorPickerY + 240 && mouseY < ColorPickerY + 260 ) { //check if the cross is on the darker color
     fill(0); //optimize visibility on ligher colors
     if (mousePressed == true) {
-      println("OK");
+      println("On");
       message = (str(red(activeColor)) + "," + str(green(activeColor)) + "," + str(blue(activeColor)) + "\0"); //compose message to set coor
       myPort.write(message);
       delay(100); //Debounce
@@ -171,7 +171,7 @@ void drawOK()
     fill(100); //optimize visibility on darker colors
   }
 
-  text( "OK", ColorPickerX + 285, ColorPickerY + 250 );
+  text( "ON", ColorPickerX + 285, ColorPickerY + 250 );
 }
 
 
