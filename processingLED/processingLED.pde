@@ -4,8 +4,8 @@ int
   LineY, //hue line vertical position
   CrossX, //saturation+brightness cross horizontal position
   CrossY, //saturation+brightness cross horizontal position
-  ColorSelectorX = 100, //color selector button horizontal position <------------------------------------------- CHANGE
-  ColorSelectorY = 100; //color selector button vertical position   <------------------------------------------- CHANGE
+  ColorSelectorX = -500, //color selector button horizontal position <------------------------------------------- CHANGE
+  ColorSelectorY = -500; //color selector button vertical position   <------------------------------------------- CHANGE
 
 boolean 
   isDraggingCross = false, //check if mouse is dragging the cross
@@ -29,7 +29,7 @@ void setup()
 
 {
 
-  size( 700, 700 );
+  size(350, 270);
   smooth();
   surface.setResizable(true); //This doesn't work properly rn but maybe in the future.
 
@@ -180,7 +180,7 @@ void drawLine()
 void drawColorPicker() 
 {
   stroke( interfaceColor );
-  line( ColorSelectorX + 10, ColorSelectorY + 10, ColorPickerX - 3, ColorPickerY - 3 );
+  //line(ColorSelectorX + 10, ColorSelectorY + 10, ColorPickerX - 3, ColorPickerY - 3 );
   strokeWeight( 1 );
   fill( 0 );
   rect( ColorPickerX - 3, ColorPickerY - 3, 283, 260 );
