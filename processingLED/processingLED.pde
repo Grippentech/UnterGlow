@@ -25,9 +25,15 @@ Serial myPort;  // Create object from Serial class
 
 final boolean debug = true;
 
+int old_red = 0;
+int old_green = 0;
+int old_blue = 0;
+
 void setup() 
 
 {
+
+
 
   size(350, 270);
   smooth();
@@ -80,13 +86,13 @@ void setup()
   }
 }
 
+int red = 0;
+int green = 0;
+int blue = 0;
 
 void draw()
 
 {
-
-  background( 0 ); 
-
   //drawColorSelector(); 
   drawColorPicker();
   drawLine();
@@ -95,7 +101,22 @@ void draw()
   drawValues();
   drawOK();
 
+  red = int(red(activeColor));
+  green = int(green(activeColor));
+  blue = int(blue(activeColor));
+
+
+  if (old_red != red || old_green != green || old_blue != blue) {
+    message = (str(red(activeColor)) + "," + str(green(activeColor)) + "," + str(blue(activeColor)) + "\0"); //compose message to set coor
+    myPort.write(message);
+    delay(75);
+    old_red = red;
+    old_green = green;
+    old_blue = blue;
+  }
+
   checkMouse();
+
 
   activeColor = color( LineY - ColorPickerY, CrossX - ColorPickerX, 255 - ( CrossY - ColorPickerY ) ); //set current active color
 }
@@ -128,21 +149,21 @@ void drawOK()
     fill(0); //optimize visibility on ligher colors
     if (mousePressed == true) {
       println("OFF");
-      message = ("0,0,0"); //compose message to set coor
+      message = ("0,0,0 \0"); //compose message to set coor
       myPort.write(message);
       delay(100); //Debounce
     }
   } else {
     fill(100); //optimize visibility on darker colors
   }
-  
+
   text( "OFF", ColorPickerX + 285, ColorPickerY + 250 - 20);
-  
+
   if ( mouseX > ColorPickerX + 285 && mouseX < ColorPickerX + 305 && mouseY > ColorPickerY + 240 && mouseY < ColorPickerY + 260 ) { //check if the cross is on the darker color
     fill(0); //optimize visibility on ligher colors
     if (mousePressed == true) {
       println("OK");
-      message = (str(red(activeColor)) + "," + str(green(activeColor)) + "," + str(blue(activeColor))); //compose message to set coor
+      message = (str(red(activeColor)) + "," + str(green(activeColor)) + "," + str(blue(activeColor)) + "\0"); //compose message to set coor
       myPort.write(message);
       delay(100); //Debounce
     }
@@ -151,7 +172,6 @@ void drawOK()
   }
 
   text( "OK", ColorPickerX + 285, ColorPickerY + 250 );
-  
 }
 
 
