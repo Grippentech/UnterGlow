@@ -31,7 +31,7 @@ void setup()
 
   size(350, 270);
   smooth();
-  surface.setResizable(true); //This doesn't work properly rn but maybe in the future.
+  surface.setResizable(false); //This doesn't work properly rn but maybe in the future.
 
   colorMode(HSB);
 
