@@ -7,9 +7,15 @@ Feel free to fork and send me improvements! Thanks!
 **TODO**
 
 -Automatic Baud Rate Detection
+
 -Glowing Effects + Transition
+
 -Brightness Slider
+
 -Custom Icons
+
 -Make this page great again (aka add pics/gifs)
+
 -???
+
 -Take over the world
