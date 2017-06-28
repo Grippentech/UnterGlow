@@ -398,7 +398,7 @@ uint32_t Wheel(byte WheelPos) {
 }
 
 
-//The following function is bullshit to make sure I can actually print multiple variables in the same line. Aparently implementing prinf correnctly over serial was too much work for the core team....
+//The following function is to make sure I can actually print multiple variables in the same line.
 
 #ifndef ARDPRINTF
 #define ARDPRINTF
