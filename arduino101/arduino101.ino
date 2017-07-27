@@ -1,6 +1,3 @@
-// NeoPixel Ring simple sketch (c) 2013 Shae Erisson
-// released under the GPLv3 license to match the rest of the AdaFruit NeoPixel library
-
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
 #include <avr/power.h>
@@ -8,36 +5,35 @@
 
 #include <CurieBLE.h>
 
-// Which pin on the Arduino is connected to the NeoPixels
-#define PIN            9
+//Neopixel Pin
+#define PIN 9
 
-// How many NeoPixels are attached to the Arduino?
-#define NUMPIXELS      39
+//Number of Neopixels Attached (experiment to find correct value or conut)
+#define NUMPIXELS 39
 
 //Define the baud rate of the Arduino
 #define BAUD 9600
 
-// When we setup the NeoPixel library, we tell it how many pixels, and which pin to use to send signals.
-// Note that for older NeoPixel pixelss you might need to change the third parameter--see the strandtest
-// example for more information on possible values.
+//Setup the neopixel library
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-char state;   // variable to hold a transmitted byte
+char state; // variable to hold a transmitted byte
 
-int delayval = 1; // delay for per pixel turning on, 0 for instant
+int delayval = 1; //delay for per pixel turning on, 0 for starters
 
-int red = 0;
+//Values to hold a general color
+int red = 0; 
 int green = 0;
 int blue = 0;
 
-#define EFFECTDELAY 20
+#define EFFECTDELAY 20 //Basic effect delay for use later
 
-int currentEffect = 0;
-int effectDelay = EFFECTDELAY; //Microseconds
+int currentEffect = 0; //Remember what the current effect is
+int effectDelay = EFFECTDELAY; //Milliseconds
 
-int maxBrightness = 255; //Maximum brightness scaler
+int maxBrightness = 255; //Maximum brightness scaler, adjust depending on your needs
 
-BLEPeripheral blePeripheral;  // BLE Peripheral Device (the board you're programming)
+BLEPeripheral blePeripheral;  //BLE Peripheral Device
 
 // ====  create Nordic Semiconductor UART service =========
 BLEService uartService = BLEService("6E400001B5A3F393E0A9E50E24DCCA9E");
@@ -45,28 +41,16 @@ BLEService uartService = BLEService("6E400001B5A3F393E0A9E50E24DCCA9E");
 BLECharacteristic rxCharacteristic = BLECharacteristic("6E400002B5A3F393E0A9E50E24DCCA9E", BLEWriteWithoutResponse, 20);  // == TX on central (android app)
 BLECharacteristic txCharacteristic = BLECharacteristic("6E400003B5A3F393E0A9E50E24DCCA9E", BLENotify , 20); // == RX on central (android app)
 
-boolean wasRun = false;
+boolean wasRun = false; //Part of some spaghetti code in the loop that will need to be taken out when I get around to rewriting and testing something proper
 
 void setup() {
 
   Serial.begin(BAUD);
-  // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
-#if defined (__AVR_ATtiny85__)
-  if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
-#endif
-  // End of trinket special code
-
-  //while (Serial.available() == 0) //Wait for user input or serial port to initialize
-  //{
-  //blePeripheral.poll(); //We can keep polling bluetooth if we're not getting Serial input
-  //I should probaly move this to setup and make it a negative but it works so whatever
-  // }
   Serial.println("Ready.");
 
-  pixels.begin(); // This initializes the NeoPixel library.
+  pixels.begin(); // initialize the NeoPixel library.
 
   setAll(red, green, blue, delayval); //When Arduino starts up clear the array;
-
 
   // set advertised local name and service UUID:
   blePeripheral.setLocalName("GrippyDesk_BLE");
@@ -86,15 +70,12 @@ void setup() {
 
   // advertise the service
   blePeripheral.begin();
-
-
-
 }
 
 void loop() {
   switch (currentEffect) {
     case 0:
-      wasRun = false;
+      wasRun = false; //This whole wasRun thing is spaghetti code, I know... 
       red = Serial.readStringUntil(',').toInt();
       Serial.read(); //next character is comma, so skip it using this
       green = Serial.readStringUntil(',').toInt();
@@ -194,13 +175,7 @@ int checkBounds(int val) {
 int promptInt(String prompt) {
   int val;
   Serial.println(prompt);
-
-
-
   val = Serial.parseInt();
-
-
-
 }
 
 void blePeripheralConnectHandler(BLECentral& central) {
@@ -358,7 +333,7 @@ void theaterChase(uint32_t c, uint8_t wait) {
       delay(wait);
 
       for (uint16_t i = 0; i < pixels.numPixels(); i = i + 3) {
-        pixels.setPixelColor(i + q, 0);      //turn every third pixel off
+        pixels.setPixelColor(i + q, 0);  //turn every third pixel off
       }
     }
   }
@@ -366,7 +341,7 @@ void theaterChase(uint32_t c, uint8_t wait) {
 
 //Theatre-style crawling lights with rainbow effect
 void theaterChaseRainbow(uint8_t wait) {
-  for (int j = 0; j < 256; j++) {   // cycle all 256 colors in the wheel
+  for (int j = 0; j < 256; j++) { // cycle all 256 colors in the wheel
     for (int q = 0; q < 3; q++) {
       for (uint16_t i = 0; i < pixels.numPixels(); i = i + 3) {
         pixels.setPixelColor(i + q, Wheel( (i + j) % 255)); //turn every third pixel on
@@ -376,7 +351,7 @@ void theaterChaseRainbow(uint8_t wait) {
       delay(wait);
 
       for (uint16_t i = 0; i < pixels.numPixels(); i = i + 3) {
-        pixels.setPixelColor(i + q, 0);      //turn every third pixel off
+        pixels.setPixelColor(i + q, 0);  //turn every third pixel off
       }
     }
   }
