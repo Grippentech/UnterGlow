@@ -16,12 +16,17 @@ Feel free to fork and send me improvements! Thanks!
 
 ## TODO
 
+### Arduino Side
+
 - Automatic Baud Rate Detection
 
-- Glowing Effects + Transition
-
+ForIntel
 - Brightness Slider
 
 - Custom Icons & Color Values
 
 - ???
+
+### Processing
+
+- Implement Automatic Baud Rate Detection

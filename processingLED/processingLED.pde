@@ -43,7 +43,7 @@ String[] presets = new String[8];
 void setup() 
 
 {
-  presets[0] = "115,2,2"; //Club Red;
+  presets[0] = "115,2,2"; //Club Red
   presets[1] = "0,255,0"; //Hulk Green;
   presets[2] = "125,0,0"; //Tomato Red;
   presets[3] = "0,123,167"; //Cyrulean;

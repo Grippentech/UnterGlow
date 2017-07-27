@@ -46,11 +46,12 @@ boolean wasRun = false; //Part of some spaghetti code in the loop that will need
 void setup() {
 
   Serial.begin(BAUD);
-  Serial.println("Ready.");
+
+  Serial.println("Ready."); //Kinda sorta, mainly for debug so you know it's working in the COM terminal when resetting the board.
 
   pixels.begin(); // initialize the NeoPixel library.
 
-  setAll(red, green, blue, delayval); //When Arduino starts up clear the array;
+  setAll(red, green, blue, delayval); //When Arduino starts up clear the neopixel array in case it was left with garbage data before;
 
   // set advertised local name and service UUID:
   blePeripheral.setLocalName("GrippyDesk_BLE");
@@ -73,8 +74,9 @@ void setup() {
 }
 
 void loop() {
-  switch (currentEffect) {
+  switch (currentEffect) { //Switch the different effects
     case 0:
+      //The default case lets you change the current color, solid, no animtions here
       wasRun = false; //This whole wasRun thing is spaghetti code, I know... 
       red = Serial.readStringUntil(',').toInt();
       Serial.read(); //next character is comma, so skip it using this
